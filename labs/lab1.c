@@ -52,7 +52,7 @@ main(int argc, char *argv[])
 {
   int i;
   int sum;
-
+  float avg;
   // Account for argv[0] which is the command name
   argc--;
   argv++;
@@ -60,8 +60,8 @@ main(int argc, char *argv[])
   for (i = 0; i < argc; i++) {
     sum += atoi(argv[i]);
   }
-  
+  avg = sum/argc;
   printf("The sum is %d\n", sum);
-  
+  printf("The average is %f\n", avg);
   return 0;
 }
