@@ -1,3 +1,0 @@
-//Yeet
-#include <stdio.h>
-
