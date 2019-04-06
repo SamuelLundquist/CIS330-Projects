@@ -153,7 +153,7 @@ void print_response()
 
 // This function should take in the input from the user
 // and respond appropriately depending on whether the
-// input contains a recognizable word (i.e., INPUT_STR_1~5);
+// ins a recognizable word (i.e., INPUT_STR_1~5);
 // The apppropriate response to INPUT_STR[1] is RESPONSE_STR[1]
 // and so on.
 // If the input does not contain any of the recognizable words,
@@ -166,8 +166,31 @@ void print_response()
 // make multiple appropriate responses.
 void respond(int argc, char **argv)
 {
+    int i;
+    int j;
+    int comp;
     printf("---- Answer ----\n");
-    // Enter your code here
+    for (i = 1; i < argc; i++)
+    {
+	for (j = 0; j < sizeof(argv[i]); j++){
+            argv[i][j] = tolower(argv[i][j]);
+	}
+	argv[i][0] = toupper(argv[i][0]);
+	printf("%s\n", argv[i]);
+	
+    }
+    
+    for (i = 1; i < argc; i++)
+    {
+	for (j = 0; j < NUM_RESPONSE + 1; j++)
+	{
+	    comp = strcmp(argv[i], INPUT_STR[j]);
+	    if (comp == 0){
+		    printf("%s\n", RESPONSE_STR[j]);
+		    j = NUM_RESPONSE;
+	    }
+	}
+    }
     printf("--------\n\n");
 }
 
