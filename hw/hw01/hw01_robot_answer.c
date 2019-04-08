@@ -166,35 +166,34 @@ void print_response()
 // make multiple appropriate responses.
 void respond(int argc, char **argv)
 {
-    printf("---- Answer ----\n");
+   	printf("---- Answer ----\n");
 
-    int j;                             //init variables
-    short int recognized = 0;
+   	int j;                             //init variables
+	short int recognized = 0;
 
-    for (int i = 1; i < argc; i++)     //compare input string with INPUT_STR
-    {
-        char* word = argv[i];          //takes input str argv[i] and sets the
-        int x = 1;                     //str to word, then changes the case of
-        while(word[x]){                //the letters to correspond to words in
-            word[x] = tolower(word[x]);//INPUT_STR
-            x++;
-        }
-        word[0] = toupper(word[0]);
-        
-	for (j = 0; j < NUM_RESPONSE; j++)//This loop is where comparison takes place
+	for (int i = 1; i < argc; i++)     //compare input string with INPUT_STR
 	{
-            
-	    if (0 == strcmp (word, INPUT_STR[j]))//if input word == INPUT_STR[i]
-            {
-		    printf("%s\n", RESPONSE_STR[j]);//Print response to input
-                    recognized = 1;                 //Robot recognized input  
-                    break;                          //End comparisons for word,
-	    }                                       //the rest are unnecessary
+		char* word = argv[i];          //takes input str argv[i] and sets the
+		int x = 1;                     //str to word, then changes the case of
+		while(word[x]){                //the letters to correspond to words in
+			word[x] = tolower(word[x]);//INPUT_STR
+			x++;
+		}
+		word[0] = toupper(word[0]);
+
+		for (j = 0; j < NUM_RESPONSE; j++)//This loop is where comparison takes place
+		{
+			if (0 == strcmp (word, INPUT_STR[j]))//if input word == INPUT_STR[i]
+			{
+				printf("%s\n", RESPONSE_STR[j]);//Print response to input
+				recognized = 1;                 //Robot recognized input  
+				break;                          //End comparisons for word,
+			}                                       //the rest are unnecessary
+		}
 	}
-    }
-    if (!recognized) printf("%s\n", RESPONSE_STR[NUM_RESPONSE]);
-    //Prints that robot did not understand if all inputs did not correspond to INPUT_STR
+	if (!recognized) printf("%s\n", RESPONSE_STR[NUM_RESPONSE]);
+	//Prints that robot did not understand if all inputs did not correspond to INPUT_STR
  
-    printf("--------\n\n");
+	printf("--------\n\n");
 }
 
