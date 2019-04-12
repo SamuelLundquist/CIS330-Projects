@@ -51,6 +51,7 @@ int allocate_data(char ****data, int rows, int cols);
 void free_data(char ***data, int rows, int cols);
 
 void apply_by_row(void (*func)(char *, int, int, int, int), char ***data, int rows, int cols);
+void apply_by_col(void (*func)(char *, int, int, int, int), char ***data, int rows, int cols);
 void capitalize_first_col(char *in_str, int row, int col, int rows, int cols);
 void print_str(char *in_str, int row, int col, int rows, int cols);
 
@@ -69,10 +70,22 @@ main(int argc, char *argv[])
   
   printf("\nOriginal matrix:\n");
   apply_by_row(print_str, data, data_rows, data_cols);
-
+  printf("\n");
   // TODO: add your test calls for parts (3) and (5) here
-  capitalzie_first_col(print_str, data_rows, data_cols);
 
+  printf("Capitalize first column by column, print by row\n");
+  apply_by_col(capitalize_first_col, data, data_rows, data_cols);
+  apply_by_row(print_str, data, data_rows, data_cols);
+  printf("\n");
+
+  printf("Capitalize first column by row, print by row\n");
+  apply_by_row(capitalize_first_col, data, data_rows, data_cols);
+  apply_by_row(print_str, data, data_rows, data_cols);
+  printf("\n");
+  
+  printf("Print by column\n");
+  apply_by_col(print_str, data, data_rows, data_cols);
+  
   return 0;
 }
 
@@ -171,9 +184,20 @@ print_str(char *in_str, int row, int col, int rows, int cols)
 void
 capitalize_first_col(char *in_str, int row, int col, int rows, int cols)
 {
-	while(col != cols)
+	/*
+	if(col == 0)
 	{
-		
+		*in_str = toupper(*in_str);
+	}
+	*/
+	if (col == 0)
+	{
+		int i = 0;
+		while(in_str[i])
+		{
+				in_str[i] = toupper(in_str[i]);
+				i++;
+		}
 	}
 }
 
@@ -193,7 +217,14 @@ apply_by_col(void (*func)(char *, int, int, int, int),
              char ***data,
              int rows, int cols)
 {
-  // TODO: add your code for part (4) here
+  int i,j;
+  for (i = 0; i < cols; i++)
+  {
+    for (j = 0; j < rows; j++)
+    {
+      func(data[j][i], j, i, rows, cols);
+    }
+  }
 }
 
 /******* TODO: add you discussion for part (6) here ***************************
