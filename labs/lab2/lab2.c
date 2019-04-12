@@ -85,6 +85,7 @@ main(int argc, char *argv[])
   
   printf("Print by column\n");
   apply_by_col(print_str, data, data_rows, data_cols);
+  //Note: printing by collumn would require a different print function to work properly
   
   return 0;
 }
@@ -184,19 +185,13 @@ print_str(char *in_str, int row, int col, int rows, int cols)
 void
 capitalize_first_col(char *in_str, int row, int col, int rows, int cols)
 {
-	/*
-	if(col == 0)
+	if (col == 0) //if first column in matrix
 	{
-		*in_str = toupper(*in_str);
-	}
-	*/
-	if (col == 0)
-	{
-		int i = 0;
-		while(in_str[i])
+		int i = 0;//init index in str
+		while(in_str[i])//if string[i] exists, set to uppercase if it does not, exit while
 		{
-				in_str[i] = toupper(in_str[i]);
-				i++;
+				in_str[i] = toupper(in_str[i]);//set char to uppercase
+				i++;//iterate through string indexes
 		}
 	}
 }
@@ -218,18 +213,25 @@ apply_by_col(void (*func)(char *, int, int, int, int),
              int rows, int cols)
 {
   int i,j;
-  for (i = 0; i < cols; i++)
+  for (i = 0; i < cols; i++)//iterate through collumns
   {
-    for (j = 0; j < rows; j++)
+    for (j = 0; j < rows; j++)//for each collumn iterate through rows
     {
-      func(data[j][i], j, i, rows, cols);
+      func(data[j][i], j, i, rows, cols);//execute function
     }
   }
 }
 
 /******* TODO: add you discussion for part (6) here ***************************
 
-
+Iterating by column in the current state is inneficient because a matrix is stored in memory
+as a one dimensional array. When you access by column you end up jumping around through memory.
+This is inefficient compared to accessing memory that is nearby, ie row major.
+However, it depends on what you are attempting to do with your program. If you only needed the 
+first collumn, then accessing by column major, you could exit the loop after current_column > 0
+Another thing you could do to make it more efficient, would be to access column i + 1 by getting
+the index in memory of i plus the ROW_SIZE, instead of i * ROW_SIZE + j for any given index in 
+the matrix.
 
 
 *******************************************************************************/
