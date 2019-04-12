@@ -230,7 +230,7 @@ This is inefficient compared to accessing memory that is nearby, ie row major.
 However, it depends on what you are attempting to do with your program. If you only needed the 
 first collumn, then accessing by column major, you could exit the loop after current_column > 0
 Another thing you could do to make it more efficient, would be to access column i + 1 by getting
-the index in memory of i plus the ROW_SIZE, instead of i * ROW_SIZE + j for any given index in 
+the index in memory of i plus the ROW_SIZE, instead of (i+1)* ROW_SIZE for any given index in 
 the matrix.
 
 
