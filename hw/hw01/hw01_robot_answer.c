@@ -191,8 +191,12 @@ void respond(int argc, char **argv)
 			}                                       //the rest are unnecessary
 		}
 	}
-	if (!recognized) printf("%s\n", RESPONSE_STR[NUM_RESPONSE]);
+	if (!recognized)
+	{	
+		if(argc > 1) printf("%s\n", RESPONSE_STR[NUM_RESPONSE]);
+	}
 	//Prints that robot did not understand if all inputs did not correspond to INPUT_STR
+	//Also, if no input is entered, then nothing is printed
  
 	printf("--------\n\n");
 }
