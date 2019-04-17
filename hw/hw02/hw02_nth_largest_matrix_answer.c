@@ -140,19 +140,60 @@ void find_nth(int **int_array, uint32_t row, uint32_t col, int n, int *ret_arr)
         }
     }
 
-	else
+	else if (n > 0)
+    {
+        for (int x = 0; x < col; x++)
+        {
+            int i;
+            int j;
+            for (i = 0; i < row-1; i++)
+            {
+                for (j = 0; j < row-i-1; j++)
+                {
+                    if(int_array[j][x] < int_array[j+1][x])
+                    {
+                        int tmp = int_array[j][x];
+                        int_array[j][x] = int_array[j+1][x];
+                        int_array[j+1][x] = tmp;
+                    }
+
+                }
+            }
+            int nthLargest;
+            int jthLargest;
+            j = 0;
+            i = 0;
+            while (i < row)                       //This section handles issues with arrays such as [1 1 1 1 1]
+            {                                     //In this case, there is not a 3rd largest number so if n is 3 return -2
+                if (int_array[i][x] != jthLargest)
+                {
+                    jthLargest = int_array[i][x]; //Keeps track of jth largest number and increments j if it reaches the next largest number
+                    j++;
+                }
+                if (j == n)                       //In the event that j = n then we have found nth largest number and exit while loop
+                {
+                    nthLargest = int_array[i][x];
+                    i = row;
+                }
+                i++;
+            }
+
+            if(j != n)                         //If while loop completes and j never reaches n, example being [1 1 1 1 1] where n = 3
+            {                                  //Then 
+                ret_arr[x] = -2;
+            }
+
+            ret_arr[x] = nthLargest;
+        }
+
+    }
+
+    else
     {
         for (int i = 0; i < col; i++)
         {
-            int arr[row];
-            for (int j = 0; j < row; j++)
-            {
-                arr[j] = int_array[j][i];
-            }      
-            int val = nthLargest(arr, col, n);
-            ret_arr[i] = val;
+            ret_arr[i] = -2;
         }
-
     }
    // -------------------------
 }
@@ -168,58 +209,4 @@ void print_matrix(uint32_t row, uint32_t col, int **arr)
         printf("\n");
     }
     printf("--------\n\n");
-}
-
-int nthLargest(int *int_array, uint32_t array_size, int n)
-{
-
-    if (n > 0)
-    {
-        int i;
-        int j;
-        for (i = 0; i < array_size-1; i++)
-        {
-            for (j = 0; j < array_size-i-1; j++)
-            {
-                if(int_array[j] < int_array[j+1])
-                {
-                    int tmp = int_array[j];
-                    int_array[j] = int_array[j+1];
-                    int_array[j+1] = tmp;
-                }
-
-            }
-        }
-        int nthLargest;
-        int jthLargest;
-        j = 0;
-        i = 0;
-        while (i < array_size)                 //This section handles issues with arrays such as [1 1 1 1 1]
-        {                                     //In this case, there is not a 3rd largest number so if n is 3 return -2
-            if (int_array[i] != jthLargest)
-            {
-                jthLargest = int_array[i];         //Keeps track of jth largest number and increments j if it reaches the next largest number
-                j++;
-            }
-            if (j == n)                       //In the event that j = n then we have found nth largest number and exit while loop
-            {
-                nthLargest = int_array[i];
-                i = array_size;
-            }
-            i++;
-        }
-
-        if(j != n)                         //If while loop completes and j never reaches n, example being [1 1 1 1 1] where n = 3
-        {                                  //Then 
-            return -2;
-        }
-
-        return nthLargest;
-
-    }
-
-    else 
-    {
-        return -2;
-    }
 }
