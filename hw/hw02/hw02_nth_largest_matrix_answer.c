@@ -28,6 +28,10 @@ int main(int argc, char **argv)
 
         // Insert your code here (1)
         int n = atoi(argv[1]);
+        if (n <= 0){
+            printf("Some error!\n");
+            return 0;
+        }
         // ------------------------
 
         find_nth(int_array, row, col, n, ret_array);

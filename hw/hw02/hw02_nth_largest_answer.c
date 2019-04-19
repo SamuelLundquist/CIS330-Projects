@@ -29,6 +29,20 @@ int main(int argc, char **argv)
 
         // Insert your code here (1)
         int n = atoi(argv[1]);
+
+        for (int i = 0; i < array_size-1; i++)
+        {
+            for (int j = 0; j < array_size-i-1; j++)
+            {
+                if(int_array[j] < int_array[j+1])
+                {
+                    int tmp = int_array[j];
+                    int_array[j] = int_array[j+1];
+                    int_array[j+1] = tmp;
+                }
+
+            }
+        }
         // ------------------------
 
         nth = find_nth(int_array, array_size, n);
@@ -132,36 +146,20 @@ int find_nth(int *int_array, uint32_t array_size, int n)
 
     else if (n > 0)
     {
-        int* arry = int_array;
-        int i;
-        int j;
-        for (i = 0; i < array_size-1; i++)
-        {
-            for (j = 0; j < array_size-i-1; j++)
-            {
-                if(arry[j] < arry[j+1])
-                {
-                    int tmp = arry[j];
-                    arry[j] = arry[j+1];
-                    arry[j+1] = tmp;
-                }
-
-            }
-        }
-        int nthLargest;
+        int nthIndex;
         int jthLargest;
-        j = 0;
-        i = 0;
+        int j = 0;
+        int i = 0;
         while (i < array_size)                 //This section handles issues with arrays such as [1 1 1 1 1]
         {                                     //In this case, there is not a 3rd largest number so if n is 3 return -2
-            if (arry[i] != jthLargest)
+            if (int_array[i] != jthLargest)
             {
-                jthLargest = arry[i];         //Keeps track of jth largest number and increments j if it reaches the next largest number
+                jthLargest = int_array[i];         //Keeps track of jth largest number and increments j if it reaches the next largest number
                 j++;
             }
             if (j == n)                       //In the event that j = n then we have found nth largest number and exit while loop
             {
-                nthLargest = arry[i];
+                nthIndex = i;
                 i = array_size;
             }
             i++;
@@ -172,19 +170,8 @@ int find_nth(int *int_array, uint32_t array_size, int n)
             return -2;
         }
 
-        int nthIndex;
-        i = 0;
-        while (i < array_size)
-        {
-            if(int_array[i] = nthLargest)
-            {
-                nthIndex = i;
-                i = array_size;
-            }
-            i++;
-        }
         return nthIndex;
-
+        
     }
 
     else 
