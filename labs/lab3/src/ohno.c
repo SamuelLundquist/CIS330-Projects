@@ -5,7 +5,8 @@ CIS330: Lab 3
 Implementation file for the error reporting system
 
 *********************************************/
-
+#include <stdlib.h>
+#include <string.h>
 #include <ohno.h>
 
 static struct ohno_state *state;
@@ -21,7 +22,16 @@ static struct ohno_state *state;
 int
 ohno_init(FILE *where_to, const char *app_name)
 {
-  return 0;
+	state=(struct ohno_state *)malloc(sizeof(struct ohno_state));
+	if (state==NULL){
+		puts("malloc error");
+		return -1;
+	}
+	state->name = (char *)malloc(*app_name);
+	state->out = where_to;
+	strcpy(state->name, app_name);
+	state->error_number = 0;
+ 	return 0;
 }
 
 /*
@@ -32,6 +42,7 @@ ohno_init(FILE *where_to, const char *app_name)
 void
 ohno_free()
 {
+	free(state);
 }
 
 /*
@@ -45,4 +56,13 @@ ohno_free()
 void
 ohno(const char *message, ohno_severity_t severity)
 {
+	char* sev;
+	if (severity == OHNO_WARNING){
+			sev = "warning";
+	}else if(severity == OHNO_SERIOUS){
+		sev = "serious";
+	}else{
+		sev = "fatal";
+	}
+	fprintf(state->out, "%s, %s, %s\n", message, sev, state->name);
 }

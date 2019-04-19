@@ -30,6 +30,13 @@ lib/liblab3.a: obj/stats.o obj/ohno.o lib
 lab3: src/lab3.c lib/liblab3.a
 	$(CC) $(CFLAGS) -o $@ $< $(LIBS)
 
+lib/liblab3.so: obj/stats.o obj/ohno.o lib
+	$(CC) -shared -o lib/liblab3.so obj/stats.o obj/ohno.o
+
+lab3_dyn: src/lab3.c lib/liblab3.a
+	$(CC) $(CFLAGS) -o $@ $< $(LIBS)
+	
+
 clean:
 	rm lab3 lib/liblab3.a obj/ohno.o obj/stats.o
 	rmdir obj
