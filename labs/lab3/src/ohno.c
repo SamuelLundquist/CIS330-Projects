@@ -42,6 +42,7 @@ ohno_init(FILE *where_to, const char *app_name)
 void
 ohno_free()
 {
+	free(state->name);
 	free(state);
 }
 
