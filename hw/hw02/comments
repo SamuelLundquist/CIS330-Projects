@@ -1,0 +1,5 @@
+Wrong output in part 2: -1
+
+Good formatting and comments!
+
+Note that some C compilers will complain about variables defined in the middle of functions.
