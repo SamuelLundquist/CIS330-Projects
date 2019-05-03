@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     int *val = NULL; 
     convert_csr(row, col, int_array, nnz, &row_ptr, &col_ind, &val);
     // Print the newly converted format to check for correctness - debugging tool
-    // print_csr(row, row_ptr, col_ind, val);
+    //print_csr(row, row_ptr, col_ind, val);
 
     int *res_csr = NULL;
     res_csr = (int*) malloc(sizeof(int) * row);
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
     convert_csr_to_coo(row, row_ptr, col_ind, val, 
                        &coo_row, &coo_col, &coo_val);
     // Print the newly converted format to check for correctness - debugging tool
-    // print_coo(nnz, coo_row, coo_col, coo_val);
+    //print_coo(nnz, coo_row, coo_col, coo_val);
 
     int *res_coo = NULL;
     res_coo = (int*) malloc(sizeof(int) * row);
@@ -328,13 +328,65 @@ void print_csr(uint32_t row, int *row_ptr, int *col_ind, int *val)
 void SpMV_CSR(uint32_t row, int *row_ptr, int *col_ind, int *val, int *vec, 
               int *res)
 {
-    // Insert your code here (1)
+    for (int i = 0; i < row; i++)
+    {
+        int accum = 0;//Add to int value instead of accessing memory each time
+        for (int j = row_ptr[i]; j < row_ptr[i + 1]; j++)
+        {
+            accum += val[j] * vec[col_ind[j]];
+        }
+        res[i] = accum;//Set location in memory equal to int value
+    }
 }
 
 void convert_csr_to_coo(uint32_t row, int *row_ptr, int *col_ind, int *val, 
                         int **coo_row, int **coo_col, int **coo_val)
 {
-    // Insert your code here (2)
+    int *coo_row_ = NULL;
+    int *coo_col_ = NULL;
+    int *coo_val_ = NULL;//Init int pointers
+
+    int cnt = 1;//Calculate nnz
+    for(int i = 0; i < row; i++) {
+        for(int j = row_ptr[i]; j < row_ptr[i + 1]; j++) {
+            cnt++;
+        }
+    }
+
+    //Malloc all int pointers
+    coo_row_ = (int*) malloc(sizeof(int) * cnt);
+    if(coo_row_ == NULL) {
+        fprintf(stderr, "Malloc error for coo_row_\n");
+        exit(EXIT_FAILURE);
+    }
+    coo_col_ = (int*) malloc(sizeof(int) * cnt); 
+    if(coo_col_ == NULL) {
+        fprintf(stderr, "Malloc error for coo_col_\n");
+        exit(EXIT_FAILURE);
+    }
+    coo_val_= (int*) malloc(sizeof(int) * cnt); 
+    if(coo_val_ == NULL) {
+        fprintf(stderr, "Malloc error for coo_val_\n");
+        exit(EXIT_FAILURE);
+    }
+
+    //Set values in csr to their appropriate places in coo
+    int index = 0;
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = row_ptr[i]; j < row_ptr[i + 1]; j++)
+        {
+            coo_row_[index] = i;
+            coo_col_[index] = col_ind[j];
+            coo_val_[index] = val[j];
+            index++;
+        }
+    }
+
+    //Set the pointers equal to the pointers in this function
+    *coo_row = coo_row_;
+    *coo_col = coo_col_;
+    *coo_val = coo_val_;
 }
 
 void print_coo(uint32_t nnz, int *coo_row, int *coo_col, int *coo_val)
@@ -350,7 +402,14 @@ void print_coo(uint32_t nnz, int *coo_row, int *coo_col, int *coo_val)
 void SpMV_COO(uint32_t row, uint32_t nnz, int *coo_row, int *coo_col, 
               int *coo_val, int *vec, int *res)
 {
-    // Insert your code here (3)
+    for (int i = 0; i < nnz; i++)
+    {
+        if (res[coo_row[i]])//If already assigned value add to it
+            res[coo_row[i]] += coo_val[i] * vec[coo_col[i]];
+
+        else//Value not assigned yet so set the value instead of add. Adding could cause problems when adding to null.
+            res[coo_row[i]] = coo_val[i] * vec[coo_col[i]];
+    }
 }
 
 void verify_res(uint32_t row, int *res_truth, int *res_check)
