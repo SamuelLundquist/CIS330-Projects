@@ -10,10 +10,10 @@
 // of adj_node_t*, which is why list is of type adj_node_t***
 void init_adj_list(adj_node_t ***list, int rows)
 {
-    *list = (adj_node_t**)malloc(sizeof(adj_node_t*) * rows);
+    *list = malloc(sizeof(adj_node_t*) * rows);
     for (int i = 0; i < rows; i++)
     {
-        *(*list + i) = (adj_node_t*)malloc(sizeof(adj_node_t));
+        *(*list + i) = NULL;
     }
 }
 
@@ -24,7 +24,7 @@ void init_adj_list(adj_node_t ***list, int rows)
 // The function then returns this node
 adj_node_t *create_node(int vid)
 {
-    adj_node_t* node = (adj_node_t*)malloc(sizeof(adj_node_t));
+    adj_node_t* node = (adj_node_t*)malloc(sizeof(adj_node_t*));
     node->vid = vid;
     node->next = NULL;
     return node;
@@ -39,14 +39,15 @@ adj_node_t *create_node(int vid)
 void add_node(adj_node_t** list, int row, adj_node_t* node)
 {
     if (list[row] == NULL){
+        list[row] = malloc(sizeof(adj_node_t*));
         list[row] = node;
     }
     adj_node_t* currentNode = list[row];
-    currentNode->next = malloc(sizeof(adj_node_t*));
     while(currentNode->next != NULL)
     {
         currentNode = currentNode->next;
     }
+    currentNode->next = malloc(sizeof(adj_node_t*));
     currentNode->next = node;
 }
 
