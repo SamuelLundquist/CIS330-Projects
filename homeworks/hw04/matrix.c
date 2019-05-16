@@ -41,14 +41,26 @@ void print_matrix(int **matrix, int rows, int cols)
 
 }
 
-
 // This function takes in a 2-D matrix, src, and transposes
 // it and stores it in the 2-D matrix dst
 // transpose operation takes each src[i][j] element and stores it
 // in dst[j][i]
 void matrix_transpose(int **dst, int **src, int rows, int cols)
 {
-    // Part 2 - Implement this function
+    int** transposed_array = (int**)malloc(sizeof(int*) * rows);
+    for (int i = 0; i < rows; i++)
+    {
+        transposed_array[i] = (int*)malloc(sizeof(int) * cols);
+    }
+
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < cols; j++)
+        {
+            transposed_array[i][j] = src[j][i];
+        }
+    }
+    dst = transposed_array;
 }
 
 void spmv(int **mat, int *vec, int *res, int rows, int cols)
