@@ -10,12 +10,11 @@
 // of adj_node_t*, which is why list is of type adj_node_t***
 void init_adj_list(adj_node_t ***list, int rows)
 {
-    adj_node_t** new_list = (adj_node_t**)malloc(sizeof(adj_node_t*) * rows);
+    *list = (adj_node_t**)malloc(sizeof(adj_node_t*) * rows);
     for (int i = 0; i < rows; i++)
     {
-        new_list[i] = (adj_node_t*)malloc(sizeof(adj_node_t));
+        *(*list + i) = (adj_node_t*)malloc(sizeof(adj_node_t));
     }
-    *list = new_list;
 }
 
 
@@ -43,12 +42,11 @@ void add_node(adj_node_t** list, int row, adj_node_t* node)
         list[row] = node;
     }
     adj_node_t* currentNode = list[row];
-    currentNode->next = malloc(sizeof(adj_node_t));
+    currentNode->next = malloc(sizeof(adj_node_t*));
     while(currentNode->next != NULL)
     {
         currentNode = currentNode->next;
     }
-    //currentNode->next = malloc(sizeof(adj_node_t*));
     currentNode->next = node;
 }
 
@@ -87,8 +85,8 @@ void construct_adj_list(int **adj_mat, int rows, int cols, adj_node_t ***list)
         {
             if(adj_mat[i][j])
             {
-                adj_node_t* node = create_node(adj_mat[i][j]);
-                add_node(*list, rows, node);
+                adj_node_t* node = create_node(j);
+                add_node(*list, i, node);
             }
         }
     }
