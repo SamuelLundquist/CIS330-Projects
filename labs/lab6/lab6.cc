@@ -86,6 +86,10 @@ class ToUpper : public Filter
 //
 // TODO (1) Define a ToLower class which inherits from Filter and makes each character lowercase
 //
+class ToLower : public Filter
+{
+  char FilterLetter(char ch) { return tolower(ch); }
+};
 
 
 //
@@ -103,7 +107,14 @@ shift_cypher(char ch, int offset)
 // This class should have a constructor that takes the shift offset which will be handed to shift_cypher when the filter is executed.
 //
 
+class EncryptFilter : public Filter
+{
+  int shift;
+  char FilterLetter(char ch) { return shift_cypher(ch, shift);}
 
+  public :
+  EncryptFilter(int n){shift = n;}
+};
 
 
 //
@@ -113,7 +124,7 @@ shift_cypher(char ch, int offset)
 Filter *
 getFilter()
 {
-  return new ToUpper();
+  return new EncryptFilter(3);
 }
 
 //
