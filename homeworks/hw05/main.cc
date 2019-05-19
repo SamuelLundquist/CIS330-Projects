@@ -4,11 +4,6 @@
 // Takes a file containing keywords, responses, and happy / sad indicators and an integer
 // for the number of input strings as arguments.
 //
-// YOU MUST NOT CHANGE ANYTHING IN THIS FILE (unless we find a bug and give you a patch)
-//
-// Note that you should still read through this file to understand how your classes will be used.
-//
-
 #include <iostream>
 #include <fstream>
 #include <string>

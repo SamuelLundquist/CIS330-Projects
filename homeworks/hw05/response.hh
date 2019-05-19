@@ -1,9 +1,6 @@
 //
 // Header file with class definitions for Response, AngryReponse, and HappyResponse
 //
-// Note that we don't use `using namespace std;` incase some other file which includes this
-// header doesn't want to use all of the std namespace.
-//
 #include <iostream>
 #include <string>
 
@@ -53,7 +50,6 @@ public:
     void printKeyword() { std::cout << keyword.normal() << " " << response << std::endl; }
 };
 
-
 class AngryResponse : public Response {
 
     //
@@ -68,4 +64,16 @@ public:
     AngryResponse(std::string str1, std::string str2) : Response(str1, str2) {}
 };
 
-// TODO: Add your declation of the HappyResponse class here
+class HappyResponse : public Response {
+
+    //
+    // Overide respond method for happy responses
+    //
+    void respond(std::ostream &toWhere);
+
+public:
+    //
+    // Simple constructor which just calls the parent's constructor
+    //
+    HappyResponse(std::string str1, std::string str2) : Response(str1, str2) {}
+};
