@@ -173,11 +173,19 @@ int bfs_spmv(int **int_array, int rows, int cols, int source,
 
 void init_2d_array(int ***arr, int rows, int cols)
 {
-    // Part 1a - Implement this function
-
+    int** new_array = (int**)malloc(sizeof(int*) * rows);
+    for (int i = 0; i < rows; i++)
+    {
+        new_array[i] = (int*)malloc(sizeof(int) * cols);
+    }
+    *arr = new_array;
 }
 
 void free_2d_array(int **arr, int rows)
 {
-    // Part 1b - Implement this function
+    for (int i = 0; i < rows; i++)
+    {
+        free(arr[i]);
+    }
+    free(arr);
 }

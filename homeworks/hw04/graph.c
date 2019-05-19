@@ -10,7 +10,11 @@
 // of adj_node_t*, which is why list is of type adj_node_t***
 void init_adj_list(adj_node_t ***list, int rows)
 {
-    // Part 2 - Fill in this function
+    *list = malloc(sizeof(adj_node_t*) * rows);
+    for (int i = 0; i < rows; i++)
+    {
+        *(*list + i) = NULL;
+    }
 }
 
 
@@ -20,7 +24,10 @@ void init_adj_list(adj_node_t ***list, int rows)
 // The function then returns this node
 adj_node_t *create_node(int vid)
 {
-    // Part 3 - Fill in this function
+    adj_node_t* node = (adj_node_t*)malloc(sizeof(adj_node_t*));
+    node->vid = vid;
+    node->next = NULL;
+    return node;
 }
 
 
@@ -31,7 +38,17 @@ adj_node_t *create_node(int vid)
 // the new node
 void add_node(adj_node_t** list, int row, adj_node_t* node)
 {
-    // Part 4 - Fill in this function
+    if (list[row] == NULL){
+        list[row] = malloc(sizeof(adj_node_t*));
+        list[row] = node;
+    }
+    adj_node_t* currentNode = list[row];
+    while(currentNode->next != NULL)
+    {
+        currentNode = currentNode->next;
+    }
+    currentNode->next = malloc(sizeof(adj_node_t*));
+    currentNode->next = node;
 }
 
 // deqeueu a node from a queue
@@ -63,8 +80,17 @@ void construct_adj_list(int **adj_mat, int rows, int cols, adj_node_t ***list)
     init_adj_list(list, rows);
     // Part 1 - Fill in the rest of this function
 
-    // You will need to implement create_node() and
-    // add_node() and use them to implement this function
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < cols; j++)
+        {
+            if(adj_mat[i][j])
+            {
+                adj_node_t* node = create_node(j);
+                add_node(*list, i, node);
+            }
+        }
+    }
 }
 
 // This takes in an adjacency ilst and prints out the list
@@ -88,7 +114,11 @@ void print_adj_list(adj_node_t **list, int rows)
 void free_adj_list(adj_node_t **list, int rows)
 {
     // Part 7 - Implement this function
-    
+    for(int i = 0; i < rows; i++)
+    {
+        free(list[i]);
+    }
+    free(list);
 }
 
 void print_bfs_result(int rows, int *color, int *distance, int *parent)
