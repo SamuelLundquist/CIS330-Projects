@@ -42,7 +42,7 @@ bool Response::checkAndRespond(const string &inWord, ostream &toWhere)
 
 void Response::respond(ostream &toWhere)
 {
-  toWhere << keyword.normal() << endl;
+  toWhere << response << endl;
 }
 
 //
@@ -50,7 +50,7 @@ void Response::respond(ostream &toWhere)
 //
 void HappyResponse::respond(ostream &toWhere)
 {
-  toWhere << keyword.normal() << " :)" << endl;
+  toWhere << response << " :)" << endl;
 } 
 
 //
@@ -58,5 +58,5 @@ void HappyResponse::respond(ostream &toWhere)
 //
 void AngryResponse::respond(ostream &toWhere)
 {
-  toWhere << keyword.normal() << " :(" << endl;
+  toWhere << response << " :(" << endl;
 }
