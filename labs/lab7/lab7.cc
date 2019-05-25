@@ -98,7 +98,9 @@ namespace Mem {
     int Dequeue();
 
     // TODO: Add overloaded operator declarations and / or friend statements here
-
+    friend std::ostream& Mem::operator<<(std::ostream& s, IntQueue& iq);
+    void operator<<(int newVal);
+    int operator>>();
   };
 
   // TODO: Add prototypes for any of IntQueue's friends here
@@ -125,11 +127,37 @@ Mem::IntQueue::Enqueue(int newValue)
   }
 }
 
+void
+Mem::IntQueue::operator<<(int newVal)
+{
+  Elem<int> *tmp = new Elem<int>(newVal);
+  if (tail == NULL) {
+    head = tail = tmp;
+  } else {
+    tail->setNext(tmp);
+    tail = tmp;
+  }
+}
+
 //
 // Implementation of dequeue method
 //
 int
 Mem::IntQueue::Dequeue()
+{
+  Elem<int> *tmp = head;
+  if (head == NULL) {
+    return -1;
+  }
+  head = head->getNext();
+  if (head == NULL) {
+    tail = NULL;
+  }
+  return tmp->getData();
+}
+
+int
+Mem::IntQueue::operator>>()
 {
   Elem<int> *tmp = head;
   if (head == NULL) {
@@ -159,6 +187,15 @@ Mem::operator<<(std::ostream &s, Mem::Elem<T> *e)
   return s;
 }
 
+std::ostream & Mem::IntQueue::operator<<(std::ostream& s, IntQueue& iq)
+{
+  while (iq.head != NULL)
+  {
+      s << iq.Dequeue();
+  }
+  s << std::endl;
+}
+
 // TODO: Add overloaded operator implementations here
 
 //
@@ -181,7 +218,6 @@ main()
 
   // TODO: Add some code to test your overloaded operators
   // For example:
-  /*
   std::cout << std::endl << std::endl;
   int tmp[4];
 
@@ -196,7 +232,6 @@ main()
 
   // Check one of the items we dequeued
   std::cout << tmp[3] << std::endl;
-  */
   
 
   return 0;
