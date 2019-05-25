@@ -52,6 +52,10 @@ string Cipher::decrypt(string enc)
       bool upper = false;
       if(enc[i] == ' '){
         pos = smile->cipherText.find(' ') + 'a';
+        if (pos == 123)
+        {
+          pos = 32;
+        }
       } else if (enc[i] >= 'a') {
         pos = smile->cipherText.find(enc[i]) + 'a';
         if (pos == 123)
@@ -60,6 +64,10 @@ string Cipher::decrypt(string enc)
         }
       } else {
         pos = smile->cipherText.find(tolower(enc[i])) + 'A';
+        if (pos == 123)
+        {
+          pos = 32;
+        }
         upper = 1;
       }
       if(upper) {
@@ -91,9 +99,37 @@ CaesarCipher::CaesarCipher()
 CaesarCipher::CaesarCipher(string in, int rot)
 {
   smile = new CipherCheshire;
-  reverse(in.begin(), in.begin()+rot);
-  reverse(in.begin()+rot, in.end());
-  reverse(in.begin(), in.end());
+  if(rot >=  27|| rot <= -27){
+    rot = rot % 27;
+  }
+
+  if(rot >= 0)
+  {
+    for (int i = 0; i < rot; i++)
+    {
+      for (unsigned int x = 1; x < in.size(); x++)
+      {
+        char y = in[x-1];
+        in[x-1] = in[x];
+        in[x] = y;
+      }
+    }
+  } 
+
+  else 
+  {
+    rot = abs(rot);
+    for (int i = 0; i < rot; i++)
+    {
+      for (unsigned int x = in.size()-1; x > 0; x--)
+      {
+        char y = in[x-1];
+        in[x-1] = in[x];
+        in[x] = y;
+      }
+    }
+  }
+  
   smile->cipherText = in;
 }
 
@@ -134,6 +170,10 @@ string CaesarCipher::decrypt(string enc)
       bool upper = false;
       if(enc[i] == ' '){
         pos = smile->cipherText.find(' ') + 'a';
+        if (pos == 123)
+        {
+          pos = 32;
+        }
       } else if (enc[i] >= 'a') {
         pos = smile->cipherText.find(enc[i]) + 'a';
         if (pos == 123)
@@ -142,6 +182,10 @@ string CaesarCipher::decrypt(string enc)
         }
       } else {
         pos = smile->cipherText.find(tolower(enc[i])) + 'A';
+        if (pos == 123)
+        {
+          pos = 32;
+        }
         upper = 1;
       }
       if(upper) {
@@ -149,7 +193,6 @@ string CaesarCipher::decrypt(string enc)
       } else {
         retStr += (char)pos;
       }
-
     }
     cout << "Done" << endl;
 
