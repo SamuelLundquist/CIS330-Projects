@@ -51,23 +51,19 @@ string Cipher::decrypt(string enc)
       unsigned int pos;
       bool upper = false;
       if(enc[i] == ' '){
-        pos = smile->cipherText.find(' ') + 'a';
-        if (pos == 123)
+        pos = smile->cipherText.find(' ') + 'a'; //Get index of character in cipherText 0-26
+        if (pos > 122)//not a letter replace with space
         {
           pos = 32;
         }
       } else if (enc[i] >= 'a') {
         pos = smile->cipherText.find(enc[i]) + 'a';
-        if (pos == 123)
+        if (pos > 122)//not a letter replace with space
         {
           pos = 32;
         }
       } else {
         pos = smile->cipherText.find(tolower(enc[i])) + 'A';
-        if (pos == 123)
-        {
-          pos = 32;
-        }
         upper = 1;
       }
       if(upper) {
@@ -103,7 +99,7 @@ CaesarCipher::CaesarCipher(string in, int rot)
     rot = rot % 27;
   }
 
-  if(rot >= 0)
+  if(rot >= 0) //Rotates string
   {
     for (int i = 0; i < rot; i++)
     {
@@ -114,9 +110,9 @@ CaesarCipher::CaesarCipher(string in, int rot)
         in[x] = y;
       }
     }
-  } 
+  }
 
-  else 
+  else //Rotates string the other way if rot is negative
   {
     rot = abs(rot);
     for (int i = 0; i < rot; i++)
@@ -129,7 +125,7 @@ CaesarCipher::CaesarCipher(string in, int rot)
       }
     }
   }
-  
+
   smile->cipherText = in;
 }
 
@@ -170,22 +166,18 @@ string CaesarCipher::decrypt(string enc)
       bool upper = false;
       if(enc[i] == ' '){
         pos = smile->cipherText.find(' ') + 'a';
-        if (pos == 123)
+        if (pos > 122)
         {
           pos = 32;
         }
       } else if (enc[i] >= 'a') {
         pos = smile->cipherText.find(enc[i]) + 'a';
-        if (pos == 123)
+        if (pos > 122)
         {
           pos = 32;
         }
       } else {
         pos = smile->cipherText.find(tolower(enc[i])) + 'A';
-        if (pos == 123)
-        {
-          pos = 32;
-        }
         upper = 1;
       }
       if(upper) {
