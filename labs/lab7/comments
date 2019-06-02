@@ -1,0 +1,1 @@
+Check the method signatures for binary operators: they need exactly one argument (the r-value) if you define them on the class as you have started doing here: -1
